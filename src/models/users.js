@@ -40,7 +40,7 @@ const userSchema = new Schema(
 
 userSchema.pre("save", function (next) {
     const user = this;
-    const salt = genSaltSync(ServerConfig.SALT_VALUE);
+    const salt = genSaltSync(Number(ServerConfig.SALT_VALUE));
     const encryptedPassword = hashSync(user.password, salt);
     user.password = encryptedPassword;
     next();
