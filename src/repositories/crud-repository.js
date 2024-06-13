@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 class CrudRepository {
     constructor(model) {
         this.model = model;
@@ -18,7 +20,8 @@ class CrudRepository {
     // To get value by ID
     async get(id) {
         try {
-            const response = await this.model.findById(id);
+            const objectId = new mongoose.Types.ObjectId(id);
+            const response = await this.model.findById(objectId);
             return response;
         } catch (error) {
             console.log("Something went wrong in CRUD Repo");
@@ -73,7 +76,8 @@ class CrudRepository {
     // For deleting data
     async destroy(id) {
         try {
-            const response = await this.model.findByIdAndRemove(id);
+            const objectId = new mongoose.Types.ObjectId(id);
+            const response = await this.model.findByIdAndDelete(objectId);
             return response;
         } catch (error) {
             console.log("Something went wrong in CRUD Repo");

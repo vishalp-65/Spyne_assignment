@@ -16,6 +16,11 @@ const userSchema = new Schema(
             isEmail: true, //checks for email format
             trim: true,
         },
+        mobileNo: {
+            type: Number,
+            required: true,
+            unique: true,
+        },
         password: {
             type: String,
             minLength: 5,

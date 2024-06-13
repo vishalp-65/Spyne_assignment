@@ -40,7 +40,7 @@ class UserService {
                     name: data.name,
                     email: data.email,
                     password: data.password,
-                    image: data.img || "sample",
+                    mobileNo: data.mobileNo,
                 });
                 return user;
             }
@@ -89,6 +89,82 @@ class UserService {
             return { user, token };
         } catch (error) {
             // Handle error
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async updateUser(data) {
+        try {
+            if (!data) return;
+            // checking if user is present
+            let user = await this.userRepository.get(data.id);
+
+            if (!user) {
+                // Throw error if user not exists
+                throw {
+                    message: "User not exists for given email",
+                };
+            }
+
+            await this.userRepository.update(user.id, data);
+
+            const updatedUser = await this.userRepository.findOne({
+                email: user.email,
+            });
+            return updatedUser;
+        } catch (error) {
+            // Handle error
+            console.log("Something went wrong in user service");
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async deleteUser(id) {
+        try {
+            // checking if user is present
+            let user = await this.userRepository.get(id);
+
+            console.log("first");
+
+            if (!user) {
+                // Throw error if user not exists
+                throw {
+                    message: "User not exists for given email",
+                };
+            }
+
+            await this.userRepository.destroy(id);
+            return;
+        } catch (error) {
+            // Handle error
+            console.log("Something went wrong in user service");
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async getAllUsers() {
+        try {
+            const response = await this.userRepository.getAll();
+            return response;
+        } catch (error) {
+            // Handle error
+            console.log("Something went wrong in user service");
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async searchUser(name) {
+        try {
+            console.log("name", name);
+            const response = await this.userRepository.searchByName(name);
+            return response;
+        } catch (error) {
+            // Handle error
+            console.log("Something went wrong in user service");
             console.log(error);
             throw error;
         }
