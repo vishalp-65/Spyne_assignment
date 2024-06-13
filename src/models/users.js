@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { genSaltSync, hashSync } from "bcrypt";
-// import { ServerConfig } from "../config/index.js";
+import { ServerConfig } from "../config/index.js";
 
 const userSchema = new Schema(
     {
@@ -22,17 +22,25 @@ const userSchema = new Schema(
             required: true,
             match: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,}$/,
         },
-        comment: {
-            type: Schema.Types.ObjectId,
-            ref: "Comment",
-        },
+        followers: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        following: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
     },
     { timestamps: true }
 );
 
 userSchema.pre("save", function (next) {
     const user = this;
-    const salt = genSaltSync(9);
+    const salt = genSaltSync(ServerConfig.SALT_VALUE);
     const encryptedPassword = hashSync(user.password, salt);
     user.password = encryptedPassword;
     next();
