@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import commentSchema from "./comment";
+import commentSchema from "./comment.js";
 
 const discussionSchema = new Schema(
     {
@@ -17,12 +17,16 @@ const discussionSchema = new Schema(
         },
         hashtags: [
             {
-                type: String,
+                type: [String],
             },
         ],
         createdOn: {
             type: Date,
             default: Date.now,
+        },
+        updatedAt: {
+            type: Date,
+            default: Date.now(),
         },
         likes: [
             {
@@ -38,6 +42,9 @@ const discussionSchema = new Schema(
     },
     { timestamps: true }
 );
+
+// Create an index on hashtags for optimized search
+discussionSchema.index({ hashtags: 1 });
 
 const discussion = model("Discussion", discussionSchema);
 
