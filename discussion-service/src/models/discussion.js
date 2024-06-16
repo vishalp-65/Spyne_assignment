@@ -17,7 +17,7 @@ const discussionSchema = new Schema(
         },
         hashtags: [
             {
-                type: [String],
+                type: String,
             },
         ],
         createdOn: {

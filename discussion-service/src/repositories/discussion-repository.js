@@ -6,14 +6,24 @@ class DiscussionRepository extends CrudRepository {
         super(Discussion);
     }
 
-    async getDiscussionByValue(hashtag) {
+    async getDiscussionByHashtag(hashtag) {
         try {
-            console.log("hashtag in repo", hashtag);
-            const regex = new RegExp(`^${hashtag}$`, "i"); // Create a case-insensitive regular expression
             const response = await Discussion.find({
-                hashtags: { $regex: regex },
+                hashtags: hashtag,
             });
-            console.log("response from repo", response);
+            return response;
+        } catch (error) {
+            console.log("Error while getting discussion by hashtag in repo.");
+            throw error;
+        }
+    }
+
+    async getDiscussionByText(text) {
+        try {
+            const regex = new RegExp(text, "i"); // Create a case-insensitive regular expression
+            const response = await Discussion.find({
+                text: { $regex: regex },
+            });
             return response;
         } catch (error) {
             console.log("Error while getting discussion by hashtag in repo.");

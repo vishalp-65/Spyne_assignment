@@ -105,7 +105,7 @@ class DiscussionService {
 
             console.log("hashtag", lowercaseHashtag);
             const response =
-                await this.discussionRepository.getDiscussionByValue(
+                await this.discussionRepository.getDiscussionByHashtag(
                     lowercaseHashtag
                 );
             return response;
@@ -121,8 +121,9 @@ class DiscussionService {
 
     async searchDiscussionByText(text) {
         try {
+            console.log("text", text);
             const response =
-                await this.discussionRepository.getDiscussionByValue(text);
+                await this.discussionRepository.getDiscussionByText(text);
             return response;
         } catch (error) {
             // Handle error
