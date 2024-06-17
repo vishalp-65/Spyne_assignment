@@ -25,11 +25,7 @@ router.get(
 );
 
 // Discussion updation and deletion routes
-// router.put("/:id", authenticate, discussionController.updateUser);
-// router.delete(
-//     "/:id",
-//     authenticate,
-//     discussionController.deleteUser
-// );
+router.put("/:id", authenticate, discussionController.updateDiscussion);
+router.delete("/:id", authenticate, discussionController.deleteDiscussion);
 
 export default router;

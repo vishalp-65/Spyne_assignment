@@ -37,6 +37,9 @@ class DiscussionService {
                 };
             }
 
+            console.log("ID D", discussion.userId.toString());
+            console.log("data ID", data.userId);
+
             if (discussion.userId.toString() !== data.userId) {
                 throw {
                     message: "User not authorized to update this discussion",
@@ -44,7 +47,7 @@ class DiscussionService {
             }
 
             const updatedDiscussion = await this.discussionRepository.update(
-                discussion.userId,
+                discussion.id,
                 data
             );
             return updatedDiscussion;
@@ -58,10 +61,10 @@ class DiscussionService {
         }
     }
 
-    async deleteDiscussion(id) {
+    async deleteDiscussion(data) {
         try {
             // checking if discussion is present
-            let discussion = await this.discussionRepository.get(id);
+            let discussion = await this.discussionRepository.get(data.id);
 
             if (!discussion) {
                 // Throw error if discussion not created by the current user
@@ -70,14 +73,14 @@ class DiscussionService {
                 };
             }
 
-            if (discussion.userId.toString() !== userId) {
+            if (discussion.userId.toString() !== data.userId) {
                 // Throw error if discussion not exists
                 throw {
                     message: "User not authorized to delete this discussion.",
                 };
             }
 
-            await this.discussionRepository.destroy(id);
+            await this.discussionRepository.destroy(data.id);
             return;
         } catch (error) {
             // Handle error

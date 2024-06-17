@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import commentSchema from "./comment.js";
 
 const discussionSchema = new Schema(
     {
@@ -34,7 +33,6 @@ const discussionSchema = new Schema(
                 ref: "User",
             },
         ],
-        comments: [commentSchema],
         viewCount: {
             type: Number,
             default: 0,

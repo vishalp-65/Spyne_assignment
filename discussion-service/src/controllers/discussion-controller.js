@@ -70,9 +70,11 @@ class DiscussionController {
             }
 
             const { text, image, hashtags } = req.body;
+            const userId = req.user.id;
 
             const response = await discussionService.updateDiscussion({
                 id,
+                userId,
                 text,
                 image,
                 hashtags,
@@ -94,6 +96,7 @@ class DiscussionController {
     async deleteDiscussion(req, res) {
         try {
             const id = req.params;
+            const userId = req.user.id;
 
             if (!id) {
                 errorObj.message = "Discussion ID is required";
@@ -101,7 +104,10 @@ class DiscussionController {
                 return res.status(StatusCodes.FORBIDDEN).json(errorObj);
             }
 
-            const response = await discussionService.deleteDiscussion(id);
+            const response = await discussionService.deleteDiscussion({
+                id,
+                userId,
+            });
 
             successObj.message = "Successfully delete the Discussion";
             successObj.data = response;

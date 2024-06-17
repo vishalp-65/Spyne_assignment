@@ -6,6 +6,11 @@ const commentSchema = new Schema({
         ref: "User",
         required: true,
     },
+    discussionId: {
+        type: Schema.Types.ObjectId,
+        ref: "Discussion",
+        required: true,
+    },
     text: {
         type: String,
         required: true,
@@ -45,4 +50,6 @@ const commentSchema = new Schema({
     ],
 });
 
-export default commentSchema;
+const Comment = model("Comment", commentSchema);
+
+export default Comment;
